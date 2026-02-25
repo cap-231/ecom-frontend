@@ -229,7 +229,11 @@
             const user = getCurrentUser();
             if (!user || !user.token) return [];
             try {
+<<<<<<< HEAD
                 const response = await fetch('https://ecom-backend-alpha-rust.vercel.app/cart', {
+=======
+                const response = await fetch('https://ecom-backend-alpha-rust.vercel.app/cart', {
+>>>>>>> 81cce435f42712bba2cfd27f1961b4d2456d7654
                     headers: { 'Authorization': `Bearer ${user.token}` }
                 });
                 if (response.ok) return await response.json();
@@ -330,7 +334,11 @@
             }
             // Call backend to validate code
             try {
+<<<<<<< HEAD
                 const response = await fetch('https://ecom-backend-alpha-rust.vercel.app/discount/apply', {
+=======
+                const response = await fetch('https://ecom-backend-alpha-rust.vercel.app/discount/apply', {
+>>>>>>> 81cce435f42712bba2cfd27f1961b4d2456d7654
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ code })
@@ -415,7 +423,11 @@
             };
 
             try {
+<<<<<<< HEAD
                 const response = await fetch('https://ecom-backend-alpha-rust.vercel.app/order/checkout', {
+=======
+                const response = await fetch('https://ecom-backend-alpha-rust.vercel.app/order/checkout', {
+>>>>>>> 81cce435f42712bba2cfd27f1961b4d2456d7654
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -474,7 +486,11 @@
             text.textContent = 'Fetching status...';
 
             // Fetch status from backend
+<<<<<<< HEAD
             fetch(`https://ecom-backend-alpha-rust.vercel.app/trackinginfo?id=${trackingId}`)
+=======
+            fetch(`https://ecom-backend-alpha-rust.vercel.app/trackinginfo?id=${trackingId}`)
+>>>>>>> 81cce435f42712bba2cfd27f1961b4d2456d7654
                 .then(res => res.json())
                 .then(data => {
                     let status = data.Status || data.status || '';

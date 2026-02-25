@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Exchange Request</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #f8fafd; margin: 0; }
+        .container { max-width: 600px; margin: 40px auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(52,152,219,0.08); padding: 2rem; }
+        h1 { color: #2c3e50; font-size: 2rem; font-weight: 600; margin-bottom: 1.5rem; }
+        label { font-weight: 600; color: #34495e; margin-bottom: 0.5rem; display: block; }
+        select, textarea, input[type=text] { width: 100%; padding: 0.7rem; border-radius: 8px; border: 1.5px solid #ddd; font-size: 1rem; margin-bottom: 1.2rem; }
+        textarea { min-height: 70px; }
+        button { background: #3498db; color: #fff; border: none; padding: 0.8rem 2rem; border-radius: 25px; font-weight: 600; font-size: 1rem; cursor: pointer; margin-top: 0.5rem; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        .msg { margin-top: 1rem; font-weight: 600; }
+        .exchange-list { margin-top: 2.5rem; }
+        .exchange-item { background: #f8fafd; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+        .exchange-status { font-weight: 600; }
+        .status-pending { color: #f39c12; }
+        .status-approved { color: #27ae60; }
+        .status-rejected { color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Request Product Exchange</h1>
+        <div>
+            <label for="orderItemSelect">Select Product/Order:</label>
+            <select id="orderItemSelect"></select>
+        </div>
+        <div>
+            <label for="exchangeReason">Reason for Exchange:</label>
+            <textarea id="exchangeReason" placeholder="Describe the reason for exchange..."></textarea>
+        </div>
+        <button id="submitExchangeBtn">Submit Exchange Request</button>
+        <div class="msg" id="exchangeMsg"></div>
+        <div class="exchange-list">
+            <h2 style="font-size:1.2rem;color:#2980b9;margin-bottom:1rem;">Your Previous Exchange Requests</h2>
+            <div id="exchangeRequests"></div>
+        </div>
+    </div>
+    <script>
+    // Helper to get current user
+    function getCurrentUser() {
+        const stored = localStorage.getItem('currentUser');
+        return stored ? JSON.parse(stored) : null;
+    }
+    const user = getCurrentUser();
+    if (!user) {
+        document.querySelector('.container').innerHTML = '<div class="msg" style="color:#e74c3c;">Please log in to request an exchange.</div>';
+    } else {
+        loadOrderItems();
+        loadExchangeRequests();
+    }
+    async function loadOrderItems() {
+        const res = await fetch(`http://localhost:5001/orderitems/by-customer?email=${encodeURIComponent(user.Email)}`);
+        const items = res.ok ? await res.json() : [];
+        const select = document.getElementById('orderItemSelect');
+        if (!items.length) {
+            select.innerHTML = '<option>No orders found</option>';
+            document.getElementById('submitExchangeBtn').disabled = true;
+            return;
+        }
+        select.innerHTML = items.map(item => `<option value="${item.OrderItemID}|${item.ProductID}">${item.ProductName} (Qty: ${item.Quantity})</option>`).join('');
+    }
+    document.getElementById('submitExchangeBtn').onclick = async function() {
+        const [orderItemId, productId] = document.getElementById('orderItemSelect').value.split('|');
+        const reason = document.getElementById('exchangeReason').value.trim();
+        if (!orderItemId || !productId || !reason) {
+            document.getElementById('exchangeMsg').textContent = 'Please select a product and enter a reason.';
+            document.getElementById('exchangeMsg').style.color = '#e74c3c';
+            return;
+        }
+        const res = await fetch('http://localhost:5001/exchange/request', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ orderItemId, productId, reason, customerId: user.CustomerID })
+        });
+        const data = await res.json();
+        document.getElementById('exchangeMsg').textContent = data.message || data.error;
+        document.getElementById('exchangeMsg').style.color = data.message ? '#27ae60' : '#e74c3c';
+        if (data.message) {
+            document.getElementById('exchangeReason').value = '';
+            loadExchangeRequests();
+        }
+    };
+    async function loadExchangeRequests() {
+        const res = await fetch(`http://localhost:5001/exchange/by-customer?customerId=${user.CustomerID}`);
+        const requests = res.ok ? await res.json() : [];
+        const list = document.getElementById('exchangeRequests');
+        if (!requests.length) {
+            list.innerHTML = '<p>No previous exchange requests.</p>';
+            return;
+        }
+        list.innerHTML = requests.map(r => `
+            <div class="exchange-item">
+                <div><b>Product:</b> ${r.ProductName || r.ProductID}</div>
+                <div><b>Reason:</b> ${r.ExchangeReason}</div>
+                <div><b>Date:</b> ${r.ExchangeDate || ''}</div>
+                <div class="exchange-status status-${r.Status.toLowerCase()}"><b>Status:</b> ${r.Status}</div>
+            </div>
+        `).join('');
+    }
+    </script>
+</body>
+</html> 

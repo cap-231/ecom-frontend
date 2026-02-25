@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Support - E-commerce Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+        }
+        .navbar {
+            background: #ffffff;
+            color: #333;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .nav-right {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .support-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        .support-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .support-flex {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .support-chat, .support-faq {
+            flex: 1 1 300px;
+            min-width: 280px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.04);
+        }
+        .support-chat h2, .support-faq h2 {
+            font-size: 1.2rem;
+            color: #3498db;
+            margin-bottom: 1rem;
+        }
+        .chat-box {
+            background: #fff;
+            border-radius: 8px;
+            min-height: 180px;
+            max-height: 250px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border: 1px solid #eee;
+        }
+        .chat-message {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        .chat-message.user {
+            justify-content: flex-end;
+        }
+        .chat-bubble {
+            background: #3498db;
+            color: #fff;
+            padding: 0.7rem 1.2rem;
+            border-radius: 18px;
+            max-width: 70%;
+            font-size: 1rem;
+        }
+        .chat-message.user .chat-bubble {
+            background: #2ecc71;
+        }
+        .chat-input-row {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 0.7rem 1rem;
+            border-radius: 18px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+        .chat-send-btn {
+            background: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 18px;
+            padding: 0.7rem 1.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .chat-send-btn:hover {
+            background: #2980b9;
+        }
+        .faq-item {
+            margin-bottom: 1.2rem;
+        }
+        .faq-question {
+            font-weight: 500;
+            color: #2c3e50;
+            cursor: pointer;
+            margin-bottom: 0.3rem;
+        }
+        .faq-answer {
+            color: #555;
+            display: none;
+            margin-left: 1rem;
+        }
+        @media (max-width: 900px) {
+            .support-flex {
+                flex-direction: column;
+            }
+        }
+        @media (max-width: 600px) {
+            .support-container {
+                padding: 0.5rem;
+            }
+            .support-chat, .support-faq {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1><a href="/index.html" style="text-decoration: none;">🛍️ E-commerce Store</a></h1>
+        <div class="nav-right">
+            <a href="/index.html" class="faq-btn" style="text-decoration: none;">🏠 Home</a>
+            <a href="/faq.html" class="faq-btn" style="text-decoration: none;">❓ FAQ</a>
+        </div>
+    </div>
+    <div class="support-container">
+        <div class="support-title">Customer Support</div>
+        <div class="support-flex">
+            <div class="support-chat">
+                <h2>Live Chat</h2>
+                <div class="chat-box" id="chatBox">
+                    <div class="chat-message">
+                        <div class="chat-bubble">Hello! How can we help you today?</div>
+                    </div>
+                </div>
+                <form class="chat-input-row" id="chatForm">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..." required />
+                    <button type="submit" class="chat-send-btn">Send</button>
+                </form>
+            </div>
+            <div class="support-faq">
+                <h2>Quick FAQ</h2>
+                <div class="faq-item">
+                    <div class="faq-question">How do I track my order?</div>
+                    <div class="faq-answer">You can track your order from your account dashboard under 'Orders'.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">How do I return a product?</div>
+                    <div class="faq-answer">Go to your orders, select the product, and click 'Return'. Follow the instructions provided.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">How can I contact support?</div>
+                    <div class="faq-answer">You can use this chat or email us at support@example.com.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What payment methods are accepted?</div>
+                    <div class="faq-answer">We accept credit/debit cards, PayPal, and UPI.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Chat functionality (frontend only, demo)
+        const chatForm = document.getElementById('chatForm');
+        const chatInput = document.getElementById('chatInput');
+        const chatBox = document.getElementById('chatBox');
+        chatForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const msg = chatInput.value.trim();
+            if (!msg) return;
+            addMessage(msg, true);
+            setTimeout(() => {
+                addMessage('Thank you for your message! Our support team will get back to you soon.', false);
+            }, 1000);
+            chatInput.value = '';
+        });
+        function addMessage(text, isUser) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'chat-message' + (isUser ? ' user' : '');
+            const bubble = document.createElement('div');
+            bubble.className = 'chat-bubble';
+            bubble.textContent = text;
+            msgDiv.appendChild(bubble);
+            chatBox.appendChild(msgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+        // FAQ toggle
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', function() {
+                const ans = this.nextElementSibling;
+                ans.style.display = ans.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+    </script>
+</body>
+</html> 

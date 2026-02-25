@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Return Product</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f8fafd; }
+        .container { max-width: 400px; margin: 60px auto; background: #fff; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 12px rgba(52,152,219,0.07);}
+        h2 { color: #3498db; }
+        label { display: block; margin-top: 1rem; }
+        input, textarea { width: 100%; padding: 0.7rem; margin-top: 0.3rem; border: 1.5px solid #ddd; border-radius: 6px; }
+        button { margin-top: 1.5rem; background: #27ae60; color: #fff; border: none; padding: 0.8rem 1.5rem; border-radius: 6px; font-size: 1rem; cursor: pointer; }
+        #returnMsg { margin-top: 1.2rem; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Request a Product Return</h2>
+        <form id="returnForm">
+            <label>Email:
+                <input type="email" id="email" required>
+            </label>
+            <button type="button" id="loadOrdersBtn" style="margin-top:1rem;margin-bottom:1rem;background:#3498db;color:#fff;padding:0.6rem 1.2rem;border:none;border-radius:20px;font-weight:500;cursor:pointer;">Load My Orders</button>
+            <div id="orderSelectDiv" style="display:none;">
+                <label>Order Item:
+                    <select id="orderItemSelect" required></select>
+                </label>
+                <label>Reason for Return:
+                    <textarea id="reason" required></textarea>
+                </label>
+                <button type="submit" style="margin-top:1rem;background:#3498db;color:#fff;padding:0.7rem 2rem;border:none;border-radius:25px;font-weight:500;cursor:pointer;">Request Return</button>
+            </div>
+        </form>
+        <div id="returnMsg"></div>
+    </div>
+    <script>
+    document.getElementById('loadOrdersBtn').onclick = async function() {
+        const email = document.getElementById('email').value;
+        if (!email) return alert('Enter your email first!');
+        let res, items;
+        try {
+            res = await fetch(`http://localhost:5001/orderitems/by-customer?email=${encodeURIComponent(email)}`);
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({ error: 'Server error' }));
+                document.getElementById('returnMsg').textContent = err.error || 'Failed to load orders.';
+                document.getElementById('orderSelectDiv').style.display = 'none';
+                return;
+            }
+            items = await res.json();
+        } catch (e) {
+            document.getElementById('returnMsg').textContent = 'Network or server error.';
+            document.getElementById('orderSelectDiv').style.display = 'none';
+            return;
+        }
+        if (!Array.isArray(items) || items.length === 0) {
+            document.getElementById('returnMsg').textContent = 'No orders found for this email.';
+            document.getElementById('orderSelectDiv').style.display = 'none';
+            return;
+        }
+        const select = document.getElementById('orderItemSelect');
+        select.innerHTML = items.map(item =>
+            `<option value="${item.OrderItemID}|${item.PaymentID}">${item.ProductName} | OrderItemID: ${item.OrderItemID} | Subtotal: $${item.Subtotal.toFixed(2)}</option>`
+        ).join('');
+        document.getElementById('orderSelectDiv').style.display = 'block';
+        document.getElementById('returnMsg').textContent = '';
+    };
+
+    document.getElementById('returnForm').onsubmit = async function(e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const [orderItemId, paymentId] = document.getElementById('orderItemSelect').value.split('|');
+        const reason = document.getElementById('reason').value;
+        const res = await fetch('http://localhost:5001/return/request', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ orderItemId, paymentId, email, reason })
+        });
+        const data = await res.json();
+        document.getElementById('returnMsg').textContent = data.message || data.error;
+        if (data.message) {
+            document.getElementById('returnForm').reset();
+            document.getElementById('orderSelectDiv').style.display = 'none';
+        }
+    };
+    </script>
+</body>
+</html> 

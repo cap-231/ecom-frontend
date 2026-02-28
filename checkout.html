@@ -3,81 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout - E-commerce Store</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Checkout - HALCYON</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
     <style>
-        body { background: #f5f5f5; font-family: 'Poppins', sans-serif; }
-        .checkout-wrapper {
-            max-width: 1000px;
-            margin: 2rem auto;
-            background: #fff;
-            border-radius: 18px;
-            box-shadow: 0 4px 32px rgba(0,0,0,0.10);
-            padding: 0 0 2.5rem 0;
-        }
-        .progress-bar {
-            width: 100%;
-            background: #eaf0fa;
-            border-radius: 18px 18px 0 0;
-            overflow: hidden;
-        }
-        .progress {
-            width: 100%;
-            height: 8px;
-            background: linear-gradient(90deg, #3498db 60%, #2ecc71 100%);
-        }
-        .checkout-header {
-            padding: 2.5rem 2.5rem 1rem 2.5rem;
-            border-bottom: 1px solid #f0f0f0;
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-        }
-        .checkout-header h1 {
-            font-size: 2rem;
-            color: #2c3e50;
-            font-weight: 700;
-            margin: 0;
-        }
-        .checkout-header .icon {
-            font-size: 2.2rem;
-            color: #3498db;
-        }
-        .checkout-main {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2.5rem;
-            padding: 2.5rem;
-        }
-        .checkout-form {
-            flex: 2;
-            min-width: 320px;
-        }
-        .summary-card {
-            flex: 1.2;
-            min-width: 280px;
-            background: #f8fafd;
-            border-radius: 14px;
-            box-shadow: 0 2px 12px rgba(52,152,219,0.07);
-            padding: 2rem 1.5rem 1.5rem 1.5rem;
-            margin-top: 0.5rem;
-        }
-        .summary-card h2 {
-            font-size: 1.2rem;
-            color: #3498db;
-            margin-bottom: 1.2rem;
-        }
-        .cart-item {
-            display: flex; align-items: center; gap: 1rem;
-            border-bottom: 1px solid #eee; padding: 0.7rem 0;
-        }
-        .cart-item-img {
-            width: 40px; height: 40px; object-fit: cover; border-radius: 8px; border: 1px solid #eee;
-        }
-        .cart-item-name { flex: 1; font-weight: 500; color: #2c3e50; font-size: 1rem; }
-        .cart-item-qty, .cart-item-price { min-width: 60px; text-align: right; font-size: 0.98rem; }
-        .cart-total {
-            text-align: right; font-weight: 700; font-size: 1.1rem; margin-top: 1.2rem; color: #2ecc71;
+        .page-content { padding-top: calc(var(--navbar-height) + 2rem); min-height: 100vh; background: var(--color-bg); }
+        .checkout-wrapper { max-width: 1000px; margin: 0 auto; background: var(--color-surface); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); overflow: hidden; }
+        .progress-bar { width: 100%; background: var(--color-bg-alt); }
+        .progress { height: 6px; background: linear-gradient(90deg, var(--color-primary) 60%, var(--color-accent) 100%); }
+        .checkout-header { padding: 2rem; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: center; gap: 1rem; }
+        .checkout-header h1 { font-size: 1.75rem; color: var(--color-text); font-weight: 600; margin: 0; }
+        .checkout-main { display: flex; flex-wrap: wrap; gap: 2rem; padding: 2rem; }
+        .checkout-form { flex: 2; min-width: 320px; }
+        .summary-card { flex: 1.2; min-width: 280px; background: var(--color-bg-alt); border-radius: var(--radius-lg); padding: 1.5rem; }
+        .summary-card h2 { font-size: 1.125rem; color: var(--color-accent); margin-bottom: 1rem; font-weight: 600; }
+        .cart-item { display: flex; align-items: center; gap: 1rem; border-bottom: 1px solid var(--color-border-light); padding: 0.75rem 0; }
+        .cart-item-img { width: 48px; height: 48px; object-fit: cover; border-radius: var(--radius-md); }
+        .cart-item-name { flex: 1; font-weight: 500; color: var(--color-text); font-size: 0.9375rem; }
+        .cart-item-qty, .cart-item-price { min-width: 60px; text-align: right; font-size: 0.875rem; }
+        .cart-total { text-align: right; font-weight: 700; font-size: 1.25rem; margin-top: 1rem; color: var(--color-accent); }
         }
         .form-section {
             background: #f8fafd;
@@ -88,7 +32,7 @@
         }
         .form-section h2 {
             font-size: 1.2rem;
-            color: #3498db;
+            color: #1a1a1a;
             margin-bottom: 1.2rem;
         }
         .form-group { margin-bottom: 1.2rem; }
@@ -96,32 +40,32 @@
         .form-group input, .form-group select {
             width: 100%; padding: 0.7rem; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem;
         }
-        .form-group input:focus, .form-group select:focus { border-color: #3498db; outline: none; }
+        .form-group input:focus, .form-group select:focus { border-color: #1a1a1a; outline: none; }
         .payment-methods {
             display: flex; gap: 1.5rem; margin-top: 0.5rem; margin-bottom: 1.2rem;
         }
         .payment-radio {
-            accent-color: #3498db;
+            accent-color: #1a1a1a;
             margin-right: 0.5rem;
         }
         .place-order-btn {
-            background: linear-gradient(90deg, #3498db 60%, #2ecc71 100%);
+            background: linear-gradient(90deg, #1a1a1a 60%, #1a1a1a 100%);
             color: white; border: none; padding: 1rem 2.5rem;
             border-radius: 25px; font-size: 1.1rem; font-weight: 600; cursor: pointer;
             transition: background 0.2s;
             display: block; margin: 2rem auto 0 auto;
             box-shadow: 0 2px 8px rgba(52,152,219,0.08);
         }
-        .place-order-btn:hover { background: #2980b9; }
+        .place-order-btn:hover { background: #1a1a1a; }
         .success-message, .error-message {
             text-align: center; padding: 1.2rem; border-radius: 10px; margin: 2rem 0 0 0; font-size: 1.1rem;
         }
         .success-message {
-            background: #eafaf1; color: #27ae60; border: 1.5px solid #27ae60;
+            background: #eafaf1; color: #1a1a1a; border: 1.5px solid #1a1a1a;
             display: flex; flex-direction: column; align-items: center;
         }
         .success-check {
-            font-size: 3.5rem; color: #27ae60; margin-bottom: 0.5rem;
+            font-size: 3.5rem; color: #1a1a1a; margin-bottom: 0.5rem;
         }
         .error-message { background: #fde8e8; color: #e74c3c; border: 1.5px solid #e74c3c; }
         @media (max-width: 900px) {
@@ -137,21 +81,33 @@
     </style>
 </head>
 <body>
-    <div class="checkout-wrapper">
-        <div class="progress-bar"><div class="progress"></div></div>
-        <div class="checkout-header">
-            <span class="icon">🛒</span>
-            <h1>Checkout</h1>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-brand">
+                <img src="bird.png" alt="HALCYON">
+                <span class="navbar-brand-text">HALCYON</span>
+            </a>
+            <div class="navbar-actions">
+                <a href="index.html" class="btn btn-ghost">Cancel</a>
+            </div>
         </div>
-        <div class="checkout-main">
-            <form class="checkout-form" id="billingForm">
-                <div class="form-section">
-                    <h2>Billing & Shipping Information</h2>
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" name="name" required autocomplete="name">
-                    </div>
-                    <div class="form-group">
+    </nav>
+
+    <main class="page-content">
+        <div class="checkout-wrapper">
+            <div class="progress-bar"><div class="progress"></div></div>
+            <div class="checkout-header">
+                <h1>Checkout</h1>
+            </div>
+            <div class="checkout-main">
+                <form class="checkout-form" id="billingForm">
+                    <div class="form-section">
+                        <h2 style="font-size:1.25rem;font-weight:600;margin-bottom:1.5rem;color:var(--color-text);">Billing & Shipping Information</h2>
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required autocomplete="name">
+                        </div>
+                        <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" id="email" name="email" required autocomplete="email">
                     </div>
@@ -195,7 +151,7 @@
                 <div id="cartItems"></div>
                 <div style="margin:1.2rem 0 0.5rem 0;">
                     <input type="text" id="discountCode" placeholder="Discount code" style="width:60%;padding:0.5rem;border-radius:8px;border:1.5px solid #ddd;font-size:1rem;">
-                    <button type="button" id="applyDiscountBtn" style="background:#3498db;color:white;padding:0.5rem 1.2rem;border:none;border-radius:8px;font-weight:600;cursor:pointer;margin-left:0.5rem;">Apply</button>
+                    <button type="button" id="applyDiscountBtn" style="background:#1a1a1a;color:white;padding:0.5rem 1.2rem;border:none;border-radius:8px;font-weight:600;cursor:pointer;margin-left:0.5rem;">Apply</button>
                     <div id="discountMsg" style="font-size:0.98rem;margin-top:0.5rem;"></div>
                 </div>
                 <div class="cart-total" id="subtotalRow">Subtotal: $<span id="cartSubtotal">0.00</span></div>
@@ -208,7 +164,7 @@
     <div id="orderProgressBar" style="display:none; margin-top:2rem;">
         <div style="font-weight:600; margin-bottom:0.5rem;">Order Progress</div>
         <div style="background:#eee; border-radius:10px; height:20px; width:100%; position:relative;">
-            <div id="progressFill" style="background:#3498db; height:100%; width:0%; border-radius:10px; transition:width 0.5s;"></div>
+            <div id="progressFill" style="background:#1a1a1a; height:100%; width:0%; border-radius:10px; transition:width 0.5s;"></div>
             <div id="progressText" style="position:absolute; left:50%; top:0; transform:translateX(-50%); color:#fff; font-weight:600; line-height:20px;"></div>
         </div>
     </div>
@@ -340,7 +296,7 @@
                     discountPercent = data.percent;
                     discountCode = code;
                     msgDiv.textContent = `Discount applied: ${discountPercent}% OFF!`;
-                    msgDiv.style.color = '#27ae60';
+                    msgDiv.style.color = '#1a1a1a';
                 } else {
                     discountPercent = 0;
                     discountCode = '';
@@ -458,7 +414,7 @@
                 div.className = 'success-message';
                 div.innerHTML = `<span class='success-check'>✔️</span>${msg}`;
                 if (trackingNumber) {
-                    div.innerHTML += `<div style='margin-top:1rem;font-size:1.1rem;color:#3498db;'>Your Tracking Number: <b>${trackingNumber}</b></div>`;
+                    div.innerHTML += `<div style='margin-top:1rem;font-size:1.1rem;color:#1a1a1a;'>Your Tracking Number: <b>${trackingNumber}</b></div>`;
                 }
             } else {
                 div.className = 'error-message';
@@ -503,5 +459,6 @@
                 });
         }
     </script>
+    </main>
 </body>
 </html> 

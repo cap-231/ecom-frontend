@@ -3,51 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Detail - Modern E-commerce Store</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Blog Detail - HALCYON</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background-color: #f5f5f5;
-        }
-
-        .navbar {
-            background: #ffffff;
-            color: #333;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .navbar h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .nav-right {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .cart, .login-btn {
-            background: #3498db;
-            padding: 0.6rem 1.2rem;
-            border-radius: 25px;
-            cursor: pointer;
-            color: white;
+        .page-content { padding-top: calc(var(--navbar-height) + 2rem); min-height: 100vh; background: var(--color-bg); }
+        .page-container { max-width: 800px; margin: 0 auto; padding: 2rem 2rem 4rem; }
+        .blog-detail-card { background: var(--color-surface); border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-sm); }
+        .blog-hero-image { width: 100%; height: 400px; object-fit: cover; }
+        .blog-detail-content { padding: 2.5rem; }
+        .blog-detail-title { font-size: 2rem; font-weight: 600; color: var(--color-text); margin-bottom: 1rem; line-height: 1.3; }
+        .blog-detail-meta { display: flex; gap: 1.5rem; color: var(--color-text-muted); font-size: 0.875rem; margin-bottom: 2rem; }
+        .blog-detail-body { color: var(--color-text-secondary); line-height: 1.8; font-size: 1rem; }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--color-accent); font-weight: 500; margin-bottom: 1.5rem; }
             font-weight: 500;
             transition: all 0.3s ease;
             display: flex;
@@ -57,15 +25,15 @@
         }
 
         .login-btn {
-            background: #2ecc71;
+            background: #1a1a1a;
         }
 
         .cart:hover {
-            background: #2980b9;
+            background: #1a1a1a;
         }
 
         .login-btn:hover {
-            background: #27ae60;
+            background: #1a1a1a;
         }
 
         .container {
@@ -126,7 +94,7 @@
 
         .back-to-blogs {
             display: inline-block;
-            background: #3498db;
+            background: #1a1a1a;
             color: white;
             padding: 0.8rem 1.5rem;
             border-radius: 25px;
@@ -137,14 +105,14 @@
         }
 
         .back-to-blogs:hover {
-            background: #2980b9;
+            background: #1a1a1a;
         }
 
         .floating-support-btn {
             position: fixed;
             bottom: 32px;
             right: 32px;
-            background: #3498db;
+            background: #1a1a1a;
             color: #fff;
             border-radius: 50%;
             width: 60px;
@@ -161,7 +129,7 @@
         }
 
         .floating-support-btn:hover {
-            background: #2980b9;
+            background: #1a1a1a;
             box-shadow: 0 6px 24px rgba(52,152,219,0.3);
         }
 
@@ -182,21 +150,28 @@
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <h1><a href="/index.html" style="text-decoration: none;">🛍️ E-commerce Store</a></h1>
-        <div class="nav-right">
-            <a href="faq.html" class="faq-btn">❓ FAQ</a>
-            <a href="cart.html" class="cart">🛒 Cart</a>
-            <a href="login.html" class="login-btn">👤 Login</a>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-brand">
+                <img src="bird.png" alt="HALCYON">
+                <span class="navbar-brand-text">HALCYON</span>
+            </a>
+            <div class="navbar-actions">
+                <a href="index.html" class="btn btn-secondary">Back to Store</a>
+            </div>
         </div>
-    </div>
+    </nav>
 
-    <div class="container">
-        <div id="blogDetail">
-            <!-- Blog content will be loaded here -->
+    <main class="page-content">
+        <div class="page-container">
+            <a href="blogs.html" class="back-link">← Back to Blogs</a>
+            <div class="blog-detail-card">
+                <div id="blogDetail">
+                    <!-- Blog content will be loaded here -->
+                </div>
+            </div>
         </div>
-        <a href="blogs.html" class="back-to-blogs">← Back to Blogs</a>
-    </div>
+    </main>
 
     <a href="customersupport.html" class="floating-support-btn" title="Customer Support">
         💬

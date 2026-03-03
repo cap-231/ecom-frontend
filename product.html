@@ -105,29 +105,34 @@
         renderReviewForm();
     }
     async function fetchProduct() {
-        const res = await fetch(`https://ecom-backend-alpha-rust.vercel.app/product?id=${productId}`);
-        if (!res.ok) {
-            document.getElementById('productName').textContent = 'Product not found.';
-            return;
-        }
-        const product = await res.json();
-        document.getElementById('productName').textContent = product.Name;
-        document.getElementById('productPrice').textContent = `$${product.Price.toFixed(2)}`;
-        document.getElementById('productDescription').textContent = product.Description;
-        document.getElementById('productStock').textContent = `Stock: ${product.Stock}`;
-        document.getElementById('productSubcategory').textContent = `Subcategory: ${product.SubCategoryID}`;
-        document.getElementById('productDiscount').textContent = product.Discount ? `Discount: ${product.Discount}%` : '';
-        const img = document.getElementById('productImage');
-        img.src = productImages[product.ProductID] || product.image || `https://picsum.photos/seed/${product.ProductID}/400/300`;
-        img.alt = product.Name;
-        if (product.ProductID == 5) {
-            img.style.objectFit = 'contain';
-            img.style.background = '#fff';
-            img.style.height = '300px';
-        } else {
-            img.style.objectFit = 'cover';
-            img.style.height = '200px';
-        }
+        try {
+            const res = await fetch(`https://ecom-backend-alpha-rust.vercel.app/product?id=${productId}`);
+            if (!res.ok) {
+                document.getElementById('productName').textContent = 'Product not found.';
+                return;
+            }
+            const product = await res.json();
+            document.getElementById('productName').textContent = product.Name;
+            document.getElementById('productPrice').textContent = `$${parseFloat(product.Price).toFixed(2)}`;
+            document.getElementById('productDescription').textContent = product.Description;
+            document.getElementById('productStock').textContent = `Stock: ${product.Stock}`;
+            document.getElementById('productSubcategory').textContent = `Subcategory: ${product.SubCategoryID}`;
+            document.getElementById('productDiscount').textContent = product.Discount ? `Discount: ${product.Discount}%` : '';
+            
+            const img = document.getElementById('productImage');
+            if (img) {
+                img.src = productImages[product.ProductID] || `https://picsum.photos/seed/product${product.ProductID}/400/300`;
+                img.alt = product.Name;
+            }
+            
+            if (product.ProductID == 5) {
+                img.style.objectFit = 'contain';
+                img.style.background = '#fff';
+                img.style.height = '300px';
+            } else {
+                img.style.objectFit = 'cover';
+                img.style.height = '200px';
+            }
         // Add to Cart
         document.getElementById('addToCartBtn').onclick = async function() {
             const user = JSON.parse(localStorage.getItem('currentUser') || 'null');
